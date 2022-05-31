@@ -67,12 +67,13 @@ function Post(props){
 
   const handleInputTextoComentario = (event) => {
     setInputTextoComentario(event.target.value);
+    console.log(inputTextoComentario);
   }
 
   const onClickComentario = () => {
     setComentando(!comentando)
     if(comentando) {
-      componenteComentario = <SecaoComentario aoEnviar={aoEnviarComentario} onChangeComentario={handleInputTextoComentario} value={inputTextoComentario}/>
+      componenteComentario = <SecaoComentario aoEnviar={aoEnviarComentario} />
     }
     console.log(comentando)
   }
@@ -93,7 +94,7 @@ function Post(props){
     let componenteComentario
 
     if(comentando) {
-      componenteComentario = <SecaoComentario aoEnviar={aoEnviarComentario}/>
+      componenteComentario = <SecaoComentario onChangeComentario={handleInputTextoComentario} value={inputTextoComentario} aoEnviar={aoEnviarComentario} />
     }
 
   return(
