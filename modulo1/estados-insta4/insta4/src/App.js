@@ -79,11 +79,11 @@ const App = () => {
       };
 
     const novasPostagens = [...postagens.postagem, novaPostagem];
-
-    setPostagens(novasPostagens);
+    const novoPost = {postagem: novasPostagens}
+    setPostagens(novoPost);
     };
 
-    const listaDePostagens = postagens.postagem.map((postagem) => {
+     const listaDePostagens = postagens.postagem.map((postagem) => {
     return (
       <Post nomeUsuario = {postagem.nomeUsuario} fotoUsuario = {postagem.fotoUsuario} fotoPost = {postagem.fotoPost}/>
         
