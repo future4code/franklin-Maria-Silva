@@ -35,18 +35,18 @@ function App() {
   const [filtro, setFiltro] = useState("")
     
   useEffect((event) => {
-    JSON.stringify(tarefas)
-    const salvaTarefas = localStorage.setItem("tarefas", tarefas)
+    const salvaTarefas =  localStorage.setItem("tarefas", JSON.stringify(tarefas));
   },
   [tarefas]
   );
 
-  // useEffect() => {
-  //   () => {
+  // useEffect((event) => {
+  //   const salvaTarefas = localStorage.getItem("tarefas");
+  //   setTarefa(salvaTarefas);
+  // },
+  // [tarefas]
+  // );
 
-  //   },
-  //   []
-  // };
 
   const onChangeInput = (event) => {
     setInputValue(event.target.value)
