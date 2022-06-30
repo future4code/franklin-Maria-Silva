@@ -2,6 +2,7 @@ import React, {useEffect, useState} from 'react';
 import styled from 'styled-components';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
+import { useProtectedPage } from '../hooks/useProtectedPage';
 
 const ViagemDaLista = styled.div `
 display: flex;
@@ -17,6 +18,8 @@ color: #FFFFFF;
 `
 
 export const AdminHome = () => {
+    useProtectedPage();
+
     const navigate = useNavigate()   
     
     const goToTripDetails = () => {

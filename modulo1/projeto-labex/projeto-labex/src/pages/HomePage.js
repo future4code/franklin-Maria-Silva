@@ -14,6 +14,21 @@ left: 0;
 z-index: -3;
 ` 
 
+const ButtonHome = styled.button `
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #e3aa45;
+    width: 24em;
+    height: 5em;
+    margin: 3em 4em;
+    padding: 1px;
+    border: none;
+    color: #FFFFFF;
+    font-size: 20px;
+    font-weight: bold;
+`
+
 export const HomePage = () => {
     const navigate = useNavigate()   
     
@@ -28,8 +43,8 @@ export const HomePage = () => {
     return (
     <div>
         <HomePageImg/>
-        <button onClick={goToHomePage}>Acessar a lista de Viagens</button>
-        <button onClick={goToLogin}>Fazer Login</button>
+        <ButtonHome onClick={goToHomePage}>Acessar a lista de Viagens</ButtonHome>
+        <ButtonHome onClick={goToLogin}>Fazer Login</ButtonHome>
     </div>
     )
 }
