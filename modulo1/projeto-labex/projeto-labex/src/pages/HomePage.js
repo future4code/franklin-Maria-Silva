@@ -1,6 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 import imgHome from '../../src/home.jpg';
+import { useNavigate } from 'react-router-dom';
  
 const HomePageImg = styled.div`
 background-image: url(${imgHome});
@@ -14,11 +15,21 @@ z-index: -3;
 ` 
 
 export const HomePage = () => {
+    const navigate = useNavigate()   
+    
+    const goToHomePage = () => {
+        navigate("/trips/list")
+    }
+
+    const goToLogin = () => {
+        navigate("/login")
+    }
+
     return (
     <div>
         <HomePageImg/>
-        <button>Acessar a lista de Viagens</button>
-        <button>Fazer Login</button>
+        <button onClick={goToHomePage}>Acessar a lista de Viagens</button>
+        <button onClick={goToLogin}>Fazer Login</button>
     </div>
     )
 }
