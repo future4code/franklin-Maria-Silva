@@ -4,6 +4,22 @@ import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { useProtectedPage } from '../hooks/useProtectedPage';
 
+
+const BackgroundPage = styled.div `
+background-color: #1688a7;
+height: 100vh; 
+width: 100vw; 
+position: fixed; 
+top: 0; 
+left: 0; 
+`
+
+const TitlePage = styled.h2 `
+text-align: center;
+color: #FFFFFF;
+margin: 3em auto;
+`
+
 const ViagemDaLista = styled.div `
 display: flex;
 justify-content: center;
@@ -12,9 +28,31 @@ background-color: #21ABD5;
 width: 40em;
 height: auto;
 margin: 1em auto;
-padding: 1px;
+padding: 5px 10px 5px;
 text-align: center;
 color: #FFFFFF;
+align-items: center;
+`
+const TripSelect = styled.div `
+display: flex;
+flex-direction: column;
+margin: 10px auto;
+padding: 10px;
+justify-content: space-evenly;
+width: 40em;
+height: 5em;
+`
+const ButtonAdmin = styled.button `
+    display: flex;
+    margin: 10px auto;
+    border: none;
+    width: 10em;
+    height: 3em;
+    align-items: center;
+    justify-content: center;
+    font-size: 17px;
+    background-color: #e3aa45;
+    color: #FFFFFF;
 `
 
 export const AdminHome = () => {
@@ -37,10 +75,8 @@ export const AdminHome = () => {
             .then((response) => {
                 setTrips(response.data.trips);
                 console.log(response.data.trips);
-                console.log("Exibiu as viagens");
             }).catch((error) => {
                 console.log(error.response);
-                console.log("Bad Request")
             })
         }     
 
@@ -60,20 +96,19 @@ export const AdminHome = () => {
 
         const viagens = trips.map((trip) => {
             return (
-                <div key={trip.id}>
-                    <ViagemDaLista>{trip.name}<button onClick={goToTripDetails}>Ver detalhes da Viagem</button><button onClick={() => deleteTrip(trip.id)}>Deletar Viagem</button></ViagemDaLista>
-                </div>
+                <TripSelect key={trip.id}>
+                    <ViagemDaLista>{trip.name}<ButtonAdmin onClick={goToTripDetails}>Ver detalhes da Viagem</ButtonAdmin><ButtonAdmin onClick={() => deleteTrip(trip.id)}>Deletar Viagem</ButtonAdmin></ViagemDaLista>
+                </TripSelect>
             )
         })
 
 
     return (
-    <div>
-        <p>Área AdministrativaL</p>
-        <p>Lista de Viagens</p>
+    <BackgroundPage>
+        <TitlePage>Área Administrativa - Lista de Viagens</TitlePage>
         {viagens}
-        <button>Criar uma viagem</button>
-    </div>
+        <ButtonAdmin>Criar uma viagem</ButtonAdmin>
+    </BackgroundPage>
     )
 }
 

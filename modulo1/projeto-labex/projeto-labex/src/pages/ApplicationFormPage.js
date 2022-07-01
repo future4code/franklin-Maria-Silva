@@ -1,6 +1,53 @@
 import axios from 'axios';
 import React, {useEffect, useState } from 'react';
+import styled from 'styled-components';
 import { useNavigate } from 'react-router-dom';
+
+const BackgroundPage = styled.div `
+background-color: #1688a7;
+height: 100vh; 
+width: 100vw; 
+position: fixed; 
+top: 0; 
+left: 0; 
+`
+
+const TitlePage = styled.h1 `
+text-align: center;
+color: #FFFFFF;
+margin: 3em auto;
+`
+
+const OnForm = styled.form `
+display: flex;
+flex-direction: column;
+width: 35em;
+margin: 5em auto;
+`
+
+const OnButton = styled.button `
+display: flex;
+margin: 10px auto;
+border: none;
+width: 25em;
+height: 3em;
+align-items: center;
+justify-content: center;
+font-size: 17px;
+background-color: #e3aa45;
+color: #FFFFFF;
+`
+const Selected = styled.select `
+height: 40px;
+border: none;
+margin: 0px 0px 5px;
+`
+const Inputs = styled.input `
+height: 40px;
+border: none;
+margin: 0px 0px 5px;
+background-color: #efefef;
+`
 
 export const ApplicationForm = () => {
 
@@ -50,6 +97,11 @@ export const ApplicationForm = () => {
                 ContentType: 'application/json',
                 }
             }).then((response) => {
+                alert("Candidatura enviada com sucesso!");
+                setNome("");
+                setIdade("");
+                setTextoCandidatura("");
+                setProfissao("");
                 console.log(response)
              }).catch((error) => {
                  console.log(error)
@@ -68,7 +120,6 @@ export const ApplicationForm = () => {
                 console.log(response.data.trips);
             }).catch((error) => {
                 console.log(error.response);
-                console.log("Bad Request")
             })
         }
     const [trips, setTrips] = useState([]);
@@ -82,26 +133,26 @@ export const ApplicationForm = () => {
     })
 
     return (
-    <div>
-            <p>Formulário de Inscrição para Viagem</p>
-            <form onSubmit={CandidatarViagem}>
-                <select>
+    <BackgroundPage>
+            <TitlePage>Formulário de Inscrição para Viagem</TitlePage>
+            <OnForm onSubmit={CandidatarViagem}>
+                <Selected>
                     <option value={"escolha uma viagem"}>Escolha uma Viagem</option>
                     {selectViagens}
-                </select>
-                <input value={nome} onChange={mudaNome} placeholder={"Nome"}/>
-                <input value={idade} onChange={mudaIdade} placeholder={"Idade"}/>
-                <input value={textoCandidatura} onChange={mudaTextoCandidatura} placeholder={"Texto de Candidatura"}/>
-                <input value={profissao} onChange={mudaProfissao} placeholder={"Profissão"}/>
-                <select onChange={mudaPlaneta}>
+                </Selected>
+                <Inputs value={nome} onChange={mudaNome} placeholder={"Nome"}/>
+                <Inputs value={idade} onChange={mudaIdade} placeholder={"Idade"}/>
+                <Inputs value={textoCandidatura} onChange={mudaTextoCandidatura} placeholder={"Texto de Candidatura"}/>
+                <Inputs value={profissao} onChange={mudaProfissao} placeholder={"Profissão"}/>
+                <Selected onChange={mudaPlaneta}>
                     <option value={"escolha um planeta"}>Escolha um Planeta</option>
                     <option value={"jupiter"}>Júpiter</option>
                     <option value={"netuno"}>Netuno</option>
                     <option value={"festanca marciana"}>Festança Marciana</option>
-                </select>
-            <button type="submit">Enviar Formulário</button>
-        </form>
-        <button onClick={backToPage}>Voltar para Lista de Viagens</button>
-    </div>
+                </Selected>
+            <OnButton type="submit">Enviar Formulário</OnButton>
+        </OnForm>
+        <OnButton onClick={backToPage}>Voltar para Lista de Viagens</OnButton>
+    </BackgroundPage>
     )
 }

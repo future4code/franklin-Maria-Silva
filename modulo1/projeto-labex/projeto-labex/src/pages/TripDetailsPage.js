@@ -14,10 +14,8 @@ export const TripDetails = () => {
             }
         })
             .then((response) => {
-                console.log("Deu certo");
                 console.log(response.data);
             }).catch((error) => {
-                console.log("Deu erro");
                 console.log(error.response);
             })
     }, [])

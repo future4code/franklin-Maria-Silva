@@ -9,12 +9,40 @@ flex-direction: column;
 align-items: center;
 background-color: #21ABD5;
 width: 40em;
-height: auto;
+height: 15em;
 margin: 1em auto;
 padding: 1px;
 text-align: center;
 color: #FFFFFF;
+font-weight: bold;
 `
+
+const BackgroundPage = styled.div `
+background-color: #1688a7;
+height: 100vh; 
+width: 100vw; 
+position: fixed; 
+top: 0; 
+left: 0; 
+`
+
+const OnButton = styled.button `
+display: flex;
+margin: 10px auto;
+border: none;
+width: 25em;
+height: 3em;
+align-items: center;
+justify-content: center;
+font-size: 17px;
+background-color: #e3aa45;
+color: #FFFFFF;
+`
+const TitlePage = styled.h1 `
+text-align: center;
+color: #FFFFFF
+`
+
 export const ListTrips = () => {
 
     
@@ -39,10 +67,8 @@ export const ListTrips = () => {
             .then((response) => {
                 setTrips(response.data.trips);
                 console.log(response.data.trips);
-                console.log("Exibiu as viagens");
             }).catch((error) => {
                 console.log(error.response);
-                console.log("Bad Request")
             })
         }
 
@@ -59,11 +85,11 @@ export const ListTrips = () => {
         })
 
     return (
-    <div>
-        <p>Lista de Viagens</p>
+    <BackgroundPage>
+        <TitlePage>Lista de Viagens</TitlePage>
         {viagens}
-        <button onClick={goToTripsApplication}>Inscrever-se em uma viagem</button>
-        <button onClick={backToPage}>Voltar para Página Inicial</button>
-    </div>
+        <OnButton onClick={goToTripsApplication}>Inscrever-se em uma viagem</OnButton>
+        <OnButton onClick={backToPage}>Voltar para Página Inicial</OnButton>
+    </BackgroundPage>
     )
 }
