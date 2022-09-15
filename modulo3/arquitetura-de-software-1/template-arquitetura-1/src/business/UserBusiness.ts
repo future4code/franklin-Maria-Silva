@@ -51,5 +51,5 @@ export default class UserBusiness {
         }
 
         return response
-    }
+    };
 }

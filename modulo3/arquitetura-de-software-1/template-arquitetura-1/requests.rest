@@ -3,7 +3,7 @@ POST http://localhost:3003/users/signup
 Content-Type: application/json
 
 {
-    "name": "Beltrano",
-    "email": "beltrano@gmail.com",
-    "password": "abc123"
+	"name": "Michael Scott",
+	"email": "michael@dundermifflin.com",
+	"password": "theboss"
 }
