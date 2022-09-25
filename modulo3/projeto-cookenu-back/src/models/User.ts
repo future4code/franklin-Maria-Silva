@@ -17,7 +17,7 @@ export class User {
         private name: string,
         private email: string,
         private password: string,
-        private role: USER_ROLES
+        private role: USER_ROLES = USER_ROLES.NORMAL
     ) {}
 
     public getId = () => {
@@ -59,4 +59,16 @@ export class User {
     public setRole = (newRole: USER_ROLES) => {
         this.role = newRole
     }
+}
+
+
+export interface ISignupInputDTO {
+    name: string,
+    email: string,
+    password: string
+}
+
+export interface ISignupOutputDTO {
+    message: string,
+    token: string
 }

@@ -1,1 +1,10 @@
-### 
+### Endpoints
+
+### 1) Signup
+POST http://localhost:3003/users/signup
+Content-type: APPLICATION/JSON
+{
+    "name": "teste",
+    "email": "teste@gmail.com",
+    "password": "123456"
+}
