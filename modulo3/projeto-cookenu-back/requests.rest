@@ -24,7 +24,8 @@ Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjVmZGQxMTVlLTY0ZjAt
 
 ### 4) Pegar perfil de outro usuário
 GET http://localhost:3003/users/:id
-Authorization:
+Path Params -> id: 5fdd115e-64f0-4941-9fbd-8160c6c7ea7a
+Authorization:eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjVmZGQxMTVlLTY0ZjAtNDk0MS05ZmJkLTgxNjBjNmM3ZWE3YSIsInJvbGUiOiJOT1JNQUwiLCJpYXQiOjE2NjQxNDUyMzgsImV4cCI6MTY2NDIzMTYzOH0.6jRueUJ4rYQuXHrjvwVjS2RByx9HBDdr3wPNkjSIbv0
 
 ### 5) Criar receita
 POST http://localhost:3003/recipe

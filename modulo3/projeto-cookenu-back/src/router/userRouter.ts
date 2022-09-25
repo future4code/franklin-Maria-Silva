@@ -20,6 +20,6 @@ const userController = new UserController(
 userRouter.post("/signup", userController.signup)
 userRouter.post("/login", userController.login)
 userRouter.get("/profile", userController.getOwnProfile)
-// userRouter.get("/:id", userController.getUserById)
+userRouter.get("/:id", userController.getProfileById)
 // userRouter.post("/recipe", userController.createRecipe)
 // userRouter.get("/recipe/:id", userController.getRecipeById)

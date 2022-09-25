@@ -83,3 +83,8 @@ export interface IGetProfileOutputDTO {
     name: string,
     email: string
 }
+
+export interface IGetProfileByIdInputDTO {
+    token: string | undefined,
+    idProfile: string
+}
