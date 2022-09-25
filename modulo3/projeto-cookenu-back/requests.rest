@@ -4,8 +4,8 @@
 POST http://localhost:3003/users/signup
 Content-type: APPLICATION/JSON
 {
-    "name": "teste",
-    "email": "teste@gmail.com",
+    "name": "Teste",
+    "email": "testando@gmail.com",
     "password": "123456"
 }
 
@@ -17,3 +17,19 @@ Content-type: APPLICATION/JSON
     "email": "teste@gmail.com",
     "password": "123456"
 }
+
+### 3) Pegar próprio perfil (Get Own Profile)
+GET http://localhost:3003/users/profile
+Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjVmZGQxMTVlLTY0ZjAtNDk0MS05ZmJkLTgxNjBjNmM3ZWE3YSIsInJvbGUiOiJOT1JNQUwiLCJpYXQiOjE2NjQxNDUyMzgsImV4cCI6MTY2NDIzMTYzOH0.6jRueUJ4rYQuXHrjvwVjS2RByx9HBDdr3wPNkjSIbv0
+
+### 4) Pegar perfil de outro usuário
+GET http://localhost:3003/users/:id
+Authorization:
+
+### 5) Criar receita
+POST http://localhost:3003/recipe
+Authorization:
+
+### 6) Pegar receita
+GET http://localhost:3003/recipe/:id
+Authorization:

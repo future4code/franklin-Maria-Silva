@@ -1,5 +1,5 @@
 import { UserDatabase } from "../database/UserDatabase"
-import { IloginInputDTO, ISignupInputDTO, ISignupOutputDTO, User, USER_ROLES } from "../models/User"
+import { IGetProfileOutputDTO, IloginInputDTO, ISignupInputDTO, ISignupOutputDTO, User, USER_ROLES } from "../models/User"
 import { Authenticator, ITokenPayload } from "../services/Authenticator"
 import { HashManager } from "../services/HashManager"
 import { IdGenerator } from "../services/IdGenerator"
@@ -74,7 +74,7 @@ export class UserBusiness {
         }
 
         return response
-    }
+    };
 
     public login = async (input: IloginInputDTO) => {
         const email = input.email
@@ -132,5 +132,30 @@ export class UserBusiness {
         }
 
         return response
-    }
+    };
+
+    public getUser = async (token: string) => {
+
+        if (!token) {
+            throw new Error("Token não informado!") 
+        }
+        
+        const payload = this.authenticator.getTokenPayload(token)
+
+        if (!payload) {
+            throw new Error("Token inválido ou faltando")
+        }
+
+        const usersDB = await this.userDatabase.findById(payload.id)
+
+        const userResponse: IGetProfileOutputDTO = {
+            id: usersDB.id,
+            name: usersDB.name,
+            email: usersDB.email
+        }
+
+        return userResponse
+        
+    };
+
 }

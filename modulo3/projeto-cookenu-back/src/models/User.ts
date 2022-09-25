@@ -77,3 +77,9 @@ export interface IloginInputDTO {
     email: string,
     password: string
 }
+
+export interface IGetProfileOutputDTO {
+    id: string,
+    name: string,
+    email: string
+}

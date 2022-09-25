@@ -1,6 +1,6 @@
 import { Request, Response } from "express";
 import { UserBusiness } from "../business/UserBusiness";
-import { IloginInputDTO, ISignupInputDTO, ISignupOutputDTO } from "../models/User";
+import { IGetProfileOutputDTO, IloginInputDTO, ISignupInputDTO, ISignupOutputDTO } from "../models/User";
 
 export class UserController {
     constructor(
@@ -37,6 +37,23 @@ export class UserController {
 
             res.status(200).send(response)
         } catch (error: unknown) {
+            console.log(error)
+
+            if (error instanceof Error) {
+                return res.status(400).send({ message: error.message })
+            }
+
+            res.status(500).send({ message: "Erro inesperado" })
+        }
+    }
+
+    public getOwnProfile = async (req: Request, res: Response) => {
+        try {
+            const token = req.headers.authorization as string;
+            const response: IGetProfileOutputDTO = await this.userBusiness.getUser(token);
+
+            res.status(200).send(response)
+        } catch (error) {
             console.log(error)
 
             if (error instanceof Error) {

@@ -30,7 +30,7 @@ export class UserDatabase extends BaseDatabase {
     public findById = async (id: string) => {
         const usersDB: IUserDB[] = await BaseDatabase
             .connection(UserDatabase.TABLE_USERS)
-            .select()
+            .select("*")
             .where({ id })
 
         return usersDB[0]
