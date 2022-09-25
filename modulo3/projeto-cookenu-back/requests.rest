@@ -8,3 +8,12 @@ Content-type: APPLICATION/JSON
     "email": "teste@gmail.com",
     "password": "123456"
 }
+
+
+### 2) Login
+POST http://localhost:3003/users/login
+Content-type: APPLICATION/JSON
+{
+    "email": "teste@gmail.com",
+    "password": "123456"
+}

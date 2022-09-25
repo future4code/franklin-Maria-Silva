@@ -72,3 +72,8 @@ export interface ISignupOutputDTO {
     message: string,
     token: string
 }
+
+export interface IloginInputDTO {
+    email: string,
+    password: string
+}
