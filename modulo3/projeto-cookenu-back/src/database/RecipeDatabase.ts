@@ -18,4 +18,14 @@ export class RecipeDatabase extends BaseDatabase {
             .connection(RecipeDatabase.TABLE_RECIPES)
             .insert(recipeDB)
     };
+
+    public findById = async (id: string) => {
+        const recipesDB: IRecipeDB[] = await BaseDatabase
+            .connection(RecipeDatabase.TABLE_RECIPES)
+            .select("id", "name", "email")
+            .where({ id })
+            .into(RecipeDatabase.TABLE_RECIPES)
+
+        return recipesDB[0]
+    } 
 }

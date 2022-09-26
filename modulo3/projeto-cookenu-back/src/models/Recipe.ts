@@ -58,3 +58,15 @@ export interface ICreateRecipeInputDTO {
 export interface IRecipeMessage {
     message: string
 }
+
+export interface IGetRecipeByIdInputDTO {
+    token: string,
+    id: string
+}
+
+export interface IGetRecipeByIdOutputDTO {
+    id: string,
+    title: string,
+    description: string,
+    creationDate: Date
+}

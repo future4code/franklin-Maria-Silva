@@ -1,6 +1,7 @@
 import { Request, Response } from "express";
+import { send } from "process";
 import { RecipeBusiness } from "../business/RecipeBusiness";
-import { ICreateRecipeInputDTO, IRecipeMessage } from "../models/Recipe";
+import { ICreateRecipeInputDTO, IGetRecipeByIdInputDTO, IGetRecipeByIdOutputDTO, IRecipeMessage } from "../models/Recipe";
 
 
 export class RecipeController {
@@ -25,6 +26,27 @@ export class RecipeController {
                 return res.status(400).send({message: error.message})
             } 
             res.status(500).send({message: "Erro inesperado"})
+        }
+    }
+
+    public getRecipeById = async (req: Request, res: Response) => {
+        try {
+            const input: IGetRecipeByIdInputDTO = {
+                token: req.headers.authorization as string,
+                id: req.params.id
+            }
+
+            const response: IGetRecipeByIdOutputDTO = await this.recipeBusiness.getRecipe(input)
+            
+            res.status(200).send(response)
+        } catch(error) {
+            console.log(error)
+
+            if (error instanceof Error) {
+                return res.status(400).send({message: error.message})
+            } 
+            res.status(500).send({message: "Erro inesperado"})
+
         }
     }
 }
