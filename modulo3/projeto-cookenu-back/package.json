@@ -1,5 +1,5 @@
 {
-  "name": "projeto-backend-express",
+  "name": "projeto-cookenu-backend",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
@@ -10,7 +10,7 @@
     "migrations": "tsc && node ./build/database/migrations/Migrations.js"
   },
   "keywords": [],
-  "author": "",
+  "author": "Maria",
   "license": "ISC",
   "devDependencies": {
     "@types/cors": "^2.8.12",

@@ -1,11 +1,19 @@
 import { UserDatabase } from "../database/UserDatabase"
-import { User, USER_ROLES } from "../models/User"
+import { IGetProfileByIdInputDTO, IGetProfileOutputDTO, IloginInputDTO, ISignupInputDTO, ISignupOutputDTO, User, USER_ROLES } from "../models/User"
 import { Authenticator, ITokenPayload } from "../services/Authenticator"
 import { HashManager } from "../services/HashManager"
 import { IdGenerator } from "../services/IdGenerator"
 
 export class UserBusiness {
-    public signup = async (input: any) => {
+    constructor(
+        protected userDatabase: UserDatabase,
+        protected authenticator: Authenticator,
+        protected idGenerator: IdGenerator,
+        protected hashManager: HashManager
+    ) {}
+
+
+    public signup = async (input: ISignupInputDTO) => {
         const name = input.name
         const email = input.email
         const password = input.password
@@ -26,7 +34,7 @@ export class UserBusiness {
             throw new Error("Parâmetro 'email' inválido")
         }
 
-        if (typeof password !== "string" || password.length < 3) {
+        if (typeof password !== "string" || password.length < 6) {
             throw new Error("Parâmetro 'password' inválido")
         }
 
@@ -58,18 +66,17 @@ export class UserBusiness {
             role: user.getRole()
         }
 
-        const authenticator = new Authenticator()
-        const token = authenticator.generateToken(payload)
+        const token = this.authenticator.generateToken(payload) 
 
-        const response = {
+        const response: ISignupOutputDTO = {
             message: "Cadastro realizado com sucesso",
             token
         }
 
         return response
-    }
+    };
 
-    public login = async (input: any) => {
+    public login = async (input: IloginInputDTO) => {
         const email = input.email
         const password = input.password
 
@@ -85,7 +92,7 @@ export class UserBusiness {
             throw new Error("Parâmetro 'email' inválido")
         }
 
-        if (typeof password !== "string" || password.length < 3) {
+        if (typeof password !== "string" || password.length < 6) {
             throw new Error("Parâmetro 'password' inválido")
         }
 
@@ -119,181 +126,61 @@ export class UserBusiness {
         const authenticator = new Authenticator()
         const token = authenticator.generateToken(payload)
 
-        const response = {
+        const response: ISignupOutputDTO = {
             message: "Login realizado com sucesso",
             token
         }
 
         return response
-    }
+    };
 
-    public getUsers = async (input: any) => {
-        const token = input.token
-        const search = input.search || ""
-        const order = input.order || "name"
-        const sort = input.sort || "ASC"
-        const limit = Number(input.limit) || 10
-        const page = Number(input.page) || 1
-
-        const offset = limit * (page - 1)
-
-        const authenticator = new Authenticator()
-        const payload = authenticator.getTokenPayload(token)
-
-        if (!payload) {
-            throw new Error("Token inválido ou faltando")
-        }
-
-        const getUsersInputDB: any = {
-            search,
-            order,
-            sort,
-            limit,
-            offset
-        }
-
-        const userDatabase = new UserDatabase()
-        const usersDB = await userDatabase.getUsers(getUsersInputDB)
-
-        const users = usersDB.map(userDB => {
-            const user = new User(
-                userDB.id,
-                userDB.name,
-                userDB.email,
-                userDB.password,
-                userDB.role
-            )
-
-            const userResponse: any = {
-                id: user.getId(),
-                name: user.getName(),
-                email: user.getEmail()
-            }
-
-            return userResponse
-        })
-
-        const response: any = {
-            users
-        }
-
-        return response
-    }
-
-    public deleteUser = async (input: any) => {
-        const token = input.token
-        const idToDelete = input.idToDelete
-
-        const authenticator = new Authenticator()
-        const payload = authenticator.getTokenPayload(token)
-
-        if (!payload) {
-            throw new Error("Token inválido ou faltando")
-        }
-
-        if (payload.role !== USER_ROLES.ADMIN) {
-            throw new Error("Apenas admins podem deletar usuários")
-        }
-
-        if (payload.id === idToDelete) {
-            throw new Error("Não é possível deletar a própria conta")
-        }
-
-        const userDatabase = new UserDatabase()
-        const userDB = await userDatabase.findById(idToDelete)
-
-        if (!userDB) {
-            throw new Error("Usuário a ser deletado não encontrado")
-        }
-
-        await userDatabase.deleteUser(idToDelete)
-
-        const response = {
-            message: "Usuário deletado com sucesso"
-        }
-
-        return response
-    }
-
-    public editUser = async (input: any) => {
-        const {
-            token,
-            idToEdit,
-            email,
-            name,
-            password
-        } = input
+    public getUser = async (token: string) => {
 
         if (!token) {
-            throw new Error("Token faltando")
+            throw new Error("Token não informado!") 
         }
-
-        if (!email && !name && !password) {
-            throw new Error("Parâmetros faltando")
-        }
-
-        const authenticator = new Authenticator()
-        const payload = authenticator.getTokenPayload(token)
+        
+        const payload = this.authenticator.getTokenPayload(token)
 
         if (!payload) {
-            throw new Error("Token inválido")
+            throw new Error("Token inválido ou faltando")
         }
 
-        if (email && typeof email !== "string") {
-            throw new Error("Parâmetro 'email' inválido")
+        const usersDB = await this.userDatabase.findById(payload.id)
+
+        const userResponse: IGetProfileOutputDTO = {
+            id: usersDB.id,
+            name: usersDB.name,
+            email: usersDB.email
         }
 
-        if (email && !email.match(/^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/)) {
-            throw new Error("Parâmetro 'email' inválido")
+        return userResponse
+        
+    };
+
+    public getProfile = async (input: IGetProfileByIdInputDTO) => {
+        const token = input.token
+        const id = input.idProfile
+
+        if(!token) {
+            throw new Error("Token não informado!")
         }
 
-        if (name && typeof name !== "string") {
-            throw new Error("Parâmetro 'name' inválido")
+        const payload = this.authenticator.getTokenPayload(token)
+
+        if (!payload) {
+            throw new Error("Token inválido ou faltando")
         }
 
-        if (name && name.length < 3) {
-            throw new Error("Parâmetro 'name' inválido")
+        const usersDB = await this.userDatabase.findById(id)
+
+        const userResponse: IGetProfileOutputDTO = {
+            id: usersDB.id,
+            name: usersDB.name,
+            email: usersDB.email
         }
 
-        if (password && typeof password !== "string") {
-            throw new Error("Parâmetro 'password' inválido")
-        }
+        return userResponse
 
-        if (password && password.length < 6) {
-            throw new Error("Parâmetro 'password' inválido")
-        }
-
-        if (payload.role === USER_ROLES.NORMAL) {
-            if (payload.id !== idToEdit) {
-                throw new Error("Usuários normais só podem editar a própria conta")
-            }
-        }
-
-        const userDatabase = new UserDatabase()
-        const userDB = await userDatabase.findById(idToEdit)
-
-        if (!userDB) {
-            throw new Error("Conta a ser editada não existe")
-        }
-
-        const user = new User(
-            userDB.id,
-            userDB.name,
-            userDB.email,
-            userDB.password,
-            userDB.role
-        )
-
-        name && user.setName(name)
-        email && user.setEmail(email)
-        password && user.setPassword(password)
-
-        await userDatabase.editUser(user)
-
-        const response = {
-            message: "Edição realizada com sucesso"
-        }
-
-        return response
     }
 }

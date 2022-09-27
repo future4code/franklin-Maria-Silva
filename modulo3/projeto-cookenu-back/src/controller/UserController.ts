@@ -1,44 +1,44 @@
 import { Request, Response } from "express";
 import { UserBusiness } from "../business/UserBusiness";
+import { IGetProfileByIdInputDTO, IGetProfileOutputDTO, IloginInputDTO, ISignupInputDTO, ISignupOutputDTO } from "../models/User";
 
 export class UserController {
+    constructor(
+        protected userBusiness: UserBusiness
+    ) {}
     public signup = async (req: Request, res: Response) => {
         try {
-            const input: any = {
+            const input: ISignupInputDTO = {
                 name: req.body.name,
                 email: req.body.email,
                 password: req.body.password
             }
 
-            const userBusiness = new UserBusiness()
-            const response = await userBusiness.signup(input)
+           const response: ISignupOutputDTO = await this.userBusiness.signup(input)
 
             res.status(201).send(response)
-        } catch (error) {
+        } catch(error: unknown) {
             console.log(error)
-
             if (error instanceof Error) {
-                return res.status(400).send({ message: error.message })
-            }
-
-            res.status(500).send({ message: "Erro inesperado" })
+                return res.status(400).send({message: error.message})
+            } 
+            res.status(500).send({message: "Erro inesperado"})
         }
     }
 
     public login = async (req: Request, res: Response) => {
         try {
-            const input: any = {
+            const input: IloginInputDTO = {
                 email: req.body.email,
                 password: req.body.password
             }
 
-            const userBusiness = new UserBusiness()
-            const response = await userBusiness.login(input)
+            const response = await this.userBusiness.login(input)
 
             res.status(200).send(response)
-        } catch (error) {
+        } catch (error: unknown) {
             console.log(error)
-            
+
             if (error instanceof Error) {
                 return res.status(400).send({ message: error.message })
             }
@@ -47,24 +47,15 @@ export class UserController {
         }
     }
 
-    public getUsers = async (req: Request, res: Response) => {
+    public getOwnProfile = async (req: Request, res: Response) => {
         try {
-            const input: any = {
-                token: req.headers.authorization,
-                search: req.query.search as string,
-                order: req.query.order as string,
-                sort: req.query.sort as string,
-                limit: req.query.limit as string,
-                page: req.query.page as string
-            }
-
-            const userBusiness = new UserBusiness()
-            const response = await userBusiness.getUsers(input)
+            const token = req.headers.authorization as string;
+            const response: IGetProfileOutputDTO = await this.userBusiness.getUser(token);
 
             res.status(200).send(response)
         } catch (error) {
             console.log(error)
-            
+
             if (error instanceof Error) {
                 return res.status(400).send({ message: error.message })
             }
@@ -73,45 +64,19 @@ export class UserController {
         }
     }
 
-    public deleteUser = async (req: Request, res: Response) => {
-        try {
-            const input: any = {
+    public getProfileById = async (req: Request, res: Response) => {
+        try{
+            const input: IGetProfileByIdInputDTO = {
                 token: req.headers.authorization,
-                idToDelete: req.params.id
+                idProfile: req.params.id
             }
 
-            const userBusiness = new UserBusiness()
-            const response = await userBusiness.deleteUser(input)
+            const response: IGetProfileOutputDTO = await this.userBusiness.getProfile(input)
 
             res.status(200).send(response)
-        } catch (error) {
+        } catch(error) {
             console.log(error)
-            
-            if (error instanceof Error) {
-                return res.status(400).send({ message: error.message })
-            }
 
-            res.status(500).send({ message: "Erro inesperado" })
-        }
-    }
-
-    public editUser = async (req: Request, res: Response) => {
-        try {
-            const input: any = {
-                token: req.headers.authorization,
-                idToEdit: req.params.id,
-                name: req.body.name,
-                email: req.body.email,
-                password: req.body.password
-            }
-
-            const userBusiness = new UserBusiness()
-            const response = await userBusiness.editUser(input)
-
-            res.status(200).send(response)
-        } catch (error) {
-            console.log(error)
-            
             if (error instanceof Error) {
                 return res.status(400).send({ message: error.message })
             }

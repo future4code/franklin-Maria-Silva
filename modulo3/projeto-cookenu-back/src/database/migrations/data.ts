@@ -1,4 +1,5 @@
 import { IUserDB, USER_ROLES } from "../../models/User"
+import { IRecipeDB } from "../../models/Recipe"
 
 export const users: IUserDB[] = [
     {
@@ -21,5 +22,16 @@ export const users: IUserDB[] = [
         email: "ciclana@gmail.com",
         password: "$2a$12$LkWMqS3oPhP2iVMcZOVvWer9ahUPulxjB0EA4TWPxWaRuEEfYGu/i", // asdfg123
         role: USER_ROLES.NORMAL
+    }
+];
+
+export const recipes: IRecipeDB[] = [
+    {
+        id: "kanksnkjsdsb-jdjdjkaka-aaaaddevrdev",
+        title: "Macarronada",
+        description: "Macarrão ao molho bolonhesa",
+        creationDate: new Date(),
+        userId: "bb9b7ee8-ae4b-4bd1-9bd6-e7e21594399b",
+        userName: "Astrodev"
     }
 ]

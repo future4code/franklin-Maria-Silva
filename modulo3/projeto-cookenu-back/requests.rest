@@ -1,1 +1,36 @@
-### 
+### Endpoints
+
+### 1) Signup
+POST http://localhost:3003/users/signup
+Content-type: APPLICATION/JSON
+{
+    "name": "Teste",
+    "email": "testando@gmail.com",
+    "password": "123456"
+}
+
+
+### 2) Login
+POST http://localhost:3003/users/login
+Content-type: APPLICATION/JSON
+{
+    "email": "teste@gmail.com",
+    "password": "123456"
+}
+
+### 3) Pegar próprio perfil (Get Own Profile)
+GET http://localhost:3003/users/profile
+Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjAzNDAzZmU1LTMxZGQtNGNiMi05MGMzLThmOTZiYTBiNmViOCIsInJvbGUiOiJOT1JNQUwiLCJpYXQiOjE2NjQxNTc4NjUsImV4cCI6MTY2NDI0NDI2NX0.PuZatMWj86eoxlLLjaQaOvoscDlnOqtkALK_bL2TXrU
+
+### 4) Pegar perfil de outro usuário
+GET http://localhost:3003/users/:id
+Path Params -> id: a30810d2-924d-4121-9358-c4e6665b16e4
+Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjAzNDAzZmU1LTMxZGQtNGNiMi05MGMzLThmOTZiYTBiNmViOCIsInJvbGUiOiJOT1JNQUwiLCJpYXQiOjE2NjQxNTc4NjUsImV4cCI6MTY2NDI0NDI2NX0.PuZatMWj86eoxlLLjaQaOvoscDlnOqtkALK_bL2TXrU
+
+### 5) Criar receita
+POST http://localhost:3003/recipe
+Authorization: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjAzNDAzZmU1LTMxZGQtNGNiMi05MGMzLThmOTZiYTBiNmViOCIsInJvbGUiOiJOT1JNQUwiLCJpYXQiOjE2NjQxNTc4NjUsImV4cCI6MTY2NDI0NDI2NX0.PuZatMWj86eoxlLLjaQaOvoscDlnOqtkALK_bL2TXrU
+
+### 6) Pegar receita
+GET http://localhost:3003/recipe/:id
+Authorization: 
