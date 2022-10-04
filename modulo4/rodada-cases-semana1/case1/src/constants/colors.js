@@ -1,6 +1,9 @@
-export const megaSenaColor = "#6BEFA3";
-export const quinaColor = "#8666EF";
-export const lotofacilColor = "#DD7AC6";
-export const lotomaniaColor = "#FFAB64";
-export const timemaniaColor = "#5AAD7D";
-export const diaDeSorteColor = "#BFAF83";
+export const colors = {
+    'MEGA-SENA': { cor: "#6BEFA3", index: 0 },
+    'QUINA': { cor: "#8666EF", index: 1 },
+    'LOTOFÁCIL': { cor: "#DD7AC6", index: 2 },
+    'LOTOMANIA': { cor: "#FFAB64", index: 3 },
+    'TIMEMANIA': { cor: "#5AAD7D", index: 4 },
+    'DIA DE SORTE': { cor: "#BFAF83", index: 5 },
+}
+
