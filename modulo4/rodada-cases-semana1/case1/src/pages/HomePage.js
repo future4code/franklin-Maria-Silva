@@ -2,9 +2,10 @@ import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { BASE_URL } from "../constants/urls";
 import logo from "../assets/logo.png";
-import { HeaderContainer, ImgContainer, Logo, LoteriaContainer, Numeros, NumerosContainer, Select } from "./styled";
+import { HeaderContainer, ImgContainer, Logo, LoteriaContainer, NomeLoteria, NumeroConcurso, NumeroConcursoMobile, Numeros, NumerosContainer, Select, TextoAViso } from "./styled";
 import { SideBar } from "../components/SideBar";
 import { colors } from "../constants/colors";
+import { SideBarMobile } from "../components/SideBarMobile";
 
 
 const HomePage = () => {
@@ -57,35 +58,32 @@ const HomePage = () => {
 
     return (
         <LoteriaContainer>
-            <SideBar color={colors[input].cor}/> 
+            <SideBarMobile color={colors[input].cor}/> 
             <HeaderContainer>
-                <div>
-                    <Select value={input} onChange={(e) => setInput(e.target.value)}> 
-                        {loterias?.map((loteria) => {
-                        return <option key={loteria.id} value={loteria.nome.toUpperCase()}>{loteria.nome.toUpperCase()}</option>
-                        })}  
-                    </Select>
-                </div>
+                <Select value={input} onChange={(e) => setInput(e.target.value)}> 
+                    {loterias?.map((loteria) => {
+                    return <option key={loteria.id} value={loteria.nome.toUpperCase()}>{loteria.nome.toUpperCase()}</option>
+                    })}  
+                </Select>
                 <ImgContainer>
                     <Logo src={logo} alt="logo da loteria"/>
-                    <p>{input}</p>
+                    <NomeLoteria>{input}</NomeLoteria>
                 </ImgContainer>
-                <div>
+                <NumeroConcurso>
                     <p>Concurso</p>
                     <strong>{concurso.concursoId} - {data}</strong>
-                </div>
+                </NumeroConcurso>
+                <NumeroConcursoMobile>{`CONCURSO Nº ${concurso.concursoId}`}</NumeroConcursoMobile>
             </HeaderContainer>
+            <SideBar color={colors[input].cor}/> 
             <div>
                 <NumerosContainer>
                    {numerosSorteados?.map((numeros) => {
                     return <Numeros>{numeros}</Numeros>
                      })}  
                 </NumerosContainer>   
-            <div>
-                <p>Este sorteio é meramente ilustrativo e não possui nenhuma ligação com a caixa</p> 
-            </div> 
+                <TextoAViso>Este sorteio é meramente ilustrativo e não possui nenhuma ligação com a CAIXA.</TextoAViso> 
             </div>
-           
         </LoteriaContainer>
     )
 }
