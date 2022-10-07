@@ -33,8 +33,6 @@ padding: 12px;
 border: none;
 position: absolute;
 top: 40px;
-bottom: 600px;
-left: 30%;
 padding-left: 18px;
 @media (min-width: 912px) {
     position: absolute;
@@ -56,7 +54,7 @@ position: absolute;
 top:140px;
 @media (min-width: 912px) {
   flex-direction: row;
-  top: 38%;
+  top: 46%;
   left: 5%;
 }
 `
