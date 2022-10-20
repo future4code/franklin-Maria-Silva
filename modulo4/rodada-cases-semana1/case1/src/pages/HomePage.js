@@ -11,12 +11,12 @@ import { SideBarMobile } from "../components/SideBarMobile";
 const HomePage = () => {
     const [loterias, setLoterias] = useState([]);
     const [input, setInput] = useState('MEGA-SENA');
-    const [concurso, setConcurso] = useState({ concursoId: 0});
+    const [concurso, setConcurso] = useState();
     const [numerosSorteados, setNumerosSorteados] = useState([]);
     const [data, setData] = useState('10');
     
     const mostraLoteria = () => {
-       axios.get(`${BASE_URL}/loterias`, {
+       axios.get(`${BASE_URL}`, {
     }).then((response) => {
         setLoterias(response.data);
     }).catch((error) => {
@@ -25,25 +25,13 @@ const HomePage = () => {
     }
     useEffect(mostraLoteria, []);   
 
-
-    const concursosLoterias = () => {
-        axios.get(`${BASE_URL}/loterias-concursos`, {
-     }).then((response) => {
-      setConcurso(response.data[colors[input].index]);
-     }).catch((error) => {
-         console.log(error.message)
-     }); 
-     }
-
-     useEffect(concursosLoterias, [input]); 
-
-
      const concursos = () => {
-        axios.get(`${BASE_URL}/concursos/${concurso.concursoId}`, {
+        axios.get(`${BASE_URL}${input.toLowerCase()}/latest`, {
      }
      ).then((response) => {
-        setNumerosSorteados(response.data.numeros);
-        setData(novaData(response.data.data))       
+        setNumerosSorteados(response.data.dezenas);
+        setData(response.data.data)    
+        setConcurso(response.data.concurso)
      }).catch((error) => {
          console.log(error.message)
      }); 
@@ -51,18 +39,13 @@ const HomePage = () => {
 
      useEffect(concursos, [concurso, input]);    
      
-    const novaData = (data) => {
-        const dataFormatada = data.replace(/(\d*)-(\d*)-(\d*).*/, '$3/$2/$1')
-        return dataFormatada
-    }
-
     return (
         <LoteriaContainer>
             <SideBarMobile color={colors[input].cor}/> 
             <HeaderContainer>
                 <Select value={input} onChange={(e) => setInput(e.target.value)}> 
                     {loterias?.map((loteria) => {
-                    return <option key={loteria.id} value={loteria.nome.toUpperCase()}>{loteria.nome.toUpperCase()}</option>
+                    return <option key={loteria.id} value={loteria.toUpperCase()}>{loteria.toUpperCase()}</option>
                     })}  
                 </Select>
                 <ImgContainer>
@@ -71,9 +54,9 @@ const HomePage = () => {
                 </ImgContainer>
                 <NumeroConcurso>
                     <p>Concurso</p>
-                    <strong>{concurso.concursoId} - {data}</strong>
+                    <strong>{concurso} - {data}</strong>
                 </NumeroConcurso>
-                <NumeroConcursoMobile>{`CONCURSO Nº ${concurso.concursoId}`}</NumeroConcursoMobile>
+                <NumeroConcursoMobile>{`CONCURSO Nº ${concurso}`}</NumeroConcursoMobile>
             </HeaderContainer>
             <SideBar color={colors[input].cor}/> 
             <div>
