@@ -1,12 +1,10 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { useParams } from "react-router-dom";
-import { useNavigate } from "react-router-dom";
 import { API, API_KEY, BASE_IMG, LANGUAGE } from "../../urls";
-import { ImgMovieDetailed, ImgPoster, InformationContainer, MovieCastCard, MovieCrew, MovieCrewCard, MovieDetaileContainer } from "./styled";
+import { Detailes, H2, H3, HeaderContainer, ImgMovieDetailed, ImgPoster, InformationContainer, MovieCastCard, MovieCastContainer, MovieCrew, MovieCrewCard, MovieDetaileContainer } from "./styled";
 
 const MoviePage = () => {
-    const navigate = useNavigate();
     const params = useParams();
     const [movies, setMovies] = useState({});
     const [credits, setCredits] = useState({});
@@ -24,15 +22,7 @@ const MoviePage = () => {
 
     useEffect(() => {
         MoviesDetails();
-    }, []);
-
-    const genre = movies.genres
-    const genres = genre && genre.map((genre) => {
-        return (
-            <p key={genre.id}>{genre.name}</p>
-        )
-    })
-
+    });
 
     const MoviesCredits = () => {
         axios.get(`${API}${params.id}/credits?${API_KEY}${LANGUAGE}`)
@@ -46,13 +36,13 @@ const MoviePage = () => {
 
     useEffect(() => {
         MoviesCredits();
-    }, []);
+    });
 
     const credit = credits.crew
     const movieCredits = credit && credit.map((credit) => {
         return (
             <MovieCrewCard>
-                <p>{credit.name}</p>
+                <strong>{credit.name}</strong>
                 <p>{credit.job}</p>
             </MovieCrewCard>
             
@@ -74,28 +64,26 @@ const MoviePage = () => {
 
     return (
         <MovieDetaileContainer>
-            <div>
                 {movies && (
-                    <div>
-                        <ImgMovieDetailed src={`${BASE_IMG}${movies?.poster_path}`} alt="Poster"/>
+                    <HeaderContainer>
                         <div>
-                            <h1>{movies.title}</h1>
-                            <h1>{movies.release_date?.substr(0,4)}</h1>
-                            <h3>{movies.release_date + " (BR)"}</h3>
-                            <p>{genres}</p>
-                            <p>{movies.runtime} m</p>
-                            <p>{movies.vote_average} Avaliação dos usuários</p>
-                            <h2>Sinopse</h2>
+                            <ImgMovieDetailed src={`${BASE_IMG}${movies?.poster_path}`} alt="Poster"/>
+                        </div>
+                        <Detailes>
+                            <h1>{movies.title} ({movies.release_date?.substr(0,4)})</h1>
+                            <H3>{movies.release_date + " (BR)"} - {movies?.genres?.map(genre => genre.name).join(', ')} - {movies.runtime} m</H3>
+                            {/* <p>{movies.vote_average} Avaliação dos usuários</p> */}
+                            <H2>Sinopse</H2>
                             <p>{movies.overview}</p>
                             <MovieCrew>{movieCredits}</MovieCrew>
-                        </div>
-                    </div>
+                        </Detailes>
+                    </HeaderContainer>
                 )     
                 }
                 <InformationContainer>
-                    <div>
-                        <p>{movieCast}</p>
-                    </div>
+                    <MovieCastContainer>
+                        {movieCast}
+                    </MovieCastContainer>
                     <div>
                         <p>trailer</p>
                     </div>
@@ -103,8 +91,6 @@ const MoviePage = () => {
                         <p>recomendações</p>
                     </div>
                 </InformationContainer>
-            </div>
-           
         </MovieDetaileContainer>
 
 )}
